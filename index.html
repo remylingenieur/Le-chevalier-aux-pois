@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mini Zelda-like Prototype</title>
+  <!-- Inline SVG favicon to prevent 404 requests -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='100%25' height='100%25' fill='%230b2b3b'/%3E%3Ccircle cx='32' cy='32' r='20' fill='%23ffd27f'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <canvas id="game" width="960" height="640"></canvas>
+
+  <!-- Touch controls (mobile) -->
+  <div id="touch-controls" aria-hidden="true">
+    <button class="tc btn-left" aria-label="Move left">◀</button>
+    <button class="tc btn-right" aria-label="Move right">▶</button>
+    <button class="tc btn-jump" aria-label="Jump">▲</button>
+    <button class="tc btn-attack" aria-label="Attack">⚔</button>
+    <button class="tc btn-shoot" aria-label="Shoot">➤</button>
+  </div>
+
+  <!-- Level selection menu -->
+  <div id="level-menu" class="overlay" aria-hidden="true">
+    <div class="menu">
+      <h2>Choose Level</h2>
+      <div id="levels" class="levels-grid"></div>
+      <div class="menu-actions">
+        <button id="btn-close-menu">Resume</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inventory overlay -->
+  <div id="inventory-menu" class="overlay" aria-hidden="true">
+    <div class="inventory">
+      <h2>Inventory</h2>
+      <div class="gold-display">Gold: <span id="gold-amount">0</span></div>
+      <div id="inventory-grid" class="inventory-grid droppable">
+        <!-- Exemple d’item draggable -->
+        <!-- <div class="item draggable" draggable="true">Sword</div> -->
+      </div>
+      <div class="menu-actions">
+        <button id="btn-close-inventory">Close</button>
+        <button id="btn-open-shop">Shop</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Shop overlay -->
+  <div id="shop-menu" class="overlay" aria-hidden="true">
+    <div class="inventory">
+      <h2>Shop</h2>
+      <div class="gold-display">Your Gold: <span id="shop-gold-amount">0</span></div>
+      <div id="shop-grid" class="inventory-grid droppable"></div>
+      <div class="menu-actions">
+        <button id="btn-close-shop">Close Shop</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+</body>
+</html>

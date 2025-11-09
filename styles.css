@@ -1,0 +1,179 @@
+* { box-sizing: border-box; }
+html,body { 
+    height: 100%; 
+    margin: 0; 
+    padding: 20px;
+    background: #0b2b3b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+canvas { 
+    display: block;
+    background: linear-gradient(#88c0d0,#2f5360);
+    border: 6px solid #073246;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+    max-width: 100%;
+    height: auto;
+}
+#hud { position:fixed; left:16px; top:16px; color:#fff; }
+.instructions { position:fixed; right:16px; top:16px; max-width:320px; background:rgba(0,0,0,0.25); padding:10px; border-radius:8px; }
+
+/* Touch controls */
+#touch-controls { 
+    position: fixed; 
+    left: 20px; 
+    bottom: 20px; 
+    display: flex; 
+    gap: 12px; 
+    align-items: center; 
+    z-index: 30;
+    opacity: 0.8;
+}
+.tc { width:56px; height:56px; border-radius:12px; border:none; background: rgba(0,0,0,0.35); color:#fff; font-size:20px; box-shadow: 0 6px 12px rgba(0,0,0,0.4); }
+.tc:active { transform: translateY(2px); box-shadow: 0 3px 6px rgba(0,0,0,0.5); }
+.btn-left, .btn-right { width:48px; height:48px; }
+.btn-jump { background: linear-gradient(#4cc0ff,#2a8fb0); }
+.btn-attack { background: linear-gradient(#ffd27f,#e6b153); }
+.btn-shoot { background: linear-gradient(#bfe7ff,#8fc9e6); }
+
+/* HUD tweaks */
+canvas { touch-action: none; }
+
+/* Overlays (menu & inventory) */
+.overlay { 
+    position: fixed; 
+    inset: 0; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    background: rgba(0,0,0,0.45); 
+    z-index: 60; 
+}
+.overlay[aria-hidden="true"] { display: none; }
+
+.menu, .inventory { 
+    width: 560px; 
+    max-width: calc(100% - 40px); 
+    background: linear-gradient(#0f3240,#08232d); 
+    border-radius: 12px; 
+    padding: 24px; 
+    color: #fff; 
+    box-shadow: 0 12px 40px rgba(0,0,0,0.8);
+    backdrop-filter: blur(4px);
+}
+
+/* Inventory specific styles */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.item-slot {
+    background: rgba(255,255,255,0.1);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 12px;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.item-slot:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.3);
+}
+
+.item-slot.equipped {
+    border-color: #4cc0ff;
+    background: rgba(76,192,255,0.1);
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.item-desc {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.item-stats {
+    font-size: 11px;
+    margin-top: auto;
+    color: #4cc0ff;
+}
+.menu h2 { margin:0 0 12px 0; font-size:20px; }
+.levels-grid { display:grid; grid-template-columns: repeat(5,1fr); gap:8px; margin-bottom:12px; }
+.levels-grid button { padding:10px; border-radius:8px; border:none; background: rgba(255,255,255,0.06); color:#fff; cursor:pointer; }
+.levels-grid button.locked { background: rgba(255,255,255,0.03); color:rgba(255,255,255,0.35); cursor:not-allowed; }
+.menu-actions { 
+    display: flex; 
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.menu-actions button { 
+    padding: 8px 12px; 
+    border-radius: 8px; 
+    border: none; 
+    background: #2f6b3f; 
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.menu-actions button:hover {
+    background: #3a804e;
+}
+
+.gold-display {
+    background: rgba(255, 215, 0, 0.15);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin: 0 0 16px 0;
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.item-price {
+    color: #ffd700;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.item-slot.unaffordable {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.item-slot.unaffordable:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.2);
+}
+
+/* Drag & Drop support (minimal, safe) */
+.draggable {
+    cursor: grab;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.droppable {
+    border: 2px dashed rgba(255,255,255,0.2);
+    border-radius: 8px;
+    transition: border-color 0.2s, background 0.2s;
+}
+
+.droppable.over {
+    border-color: #4cc0ff;
+    background: rgba(76,192,255,0.05);
+}
